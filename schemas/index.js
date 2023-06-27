@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 
-const { DB_SERVER_IPADDR, MONGO_ID, MONGO_PASSWORD, NODE_ENV } = process.env;
-const MONGO_URL = `mongodb://${MONGO_ID}:${MONGO_PASSWORD}@${DB_SERVER_IPADDR}:27017/admin`;
+// const { DB_SERVER_IPADDR, MONGO_ID, MONGO_PASSWORD, NODE_ENV } = process.env;
+const { db : { mongo } } = require('../config')
+
+const MONGO_URL = `mongodb://${mongo.id}:${mongo.password}@${mongo.addr}:27017/admin`;
 console.log(MONGO_URL);
 const connect = () => {
-  if (NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     mongoose.set('debug', true);
   }
   mongoose.connect(MONGO_URL, {
